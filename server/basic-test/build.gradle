@@ -2,5 +2,7 @@
 
 dependencies {
 
+    implementation("$boot:spring-boot-starter-web")
+
 }
 
