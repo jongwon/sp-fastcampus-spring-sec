@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+
+<div class="container center-contents">
+    <div class="row">
+        <form class="form-signin" method="post" action="/login">
+            <h1 class="h3 mb-3 font-weight-normal"> 로그인 </h1>
+            <label for="username" class="sr-only">Email address</label>
+            <input type="email"
+                   id="username"
+                   name="username"
+                   class="form-control"
+                   placeholder="Email address"
+                   required autofocus>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password"
+                   id="password"
+                   name="password"
+                   class="form-control"
+                   placeholder="Password"
+                   required>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block"  type="submit"> 로그인 </button>
+            <div class="error-message" th:if="${loginError}">
+                <span> 아이디나 패스워드가 올바르지 않습니다. </span>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.js}" />
+</body>
+</html>
