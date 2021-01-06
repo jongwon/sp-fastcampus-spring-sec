@@ -1,6 +1,3 @@
 
-
-dependencies {
-
-}
+apply from: "../web-common.gradle"
 
