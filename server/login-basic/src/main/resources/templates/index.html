@@ -15,22 +15,20 @@
 
     <div class="links">
 
-        <div class="link">
+        <div class="link" sec:authorize="!authenticated">
             <a href="/login">  로그인 </a>
         </div>
-        <div class="link">
-            <a href="/login-error">  로그인 에러  </a>
-        </div>
-        <div class="link">
-            <a href="/access-denied">  접근 에러  </a>
-        </div>
-        <div class="link">
+        <div class="link" sec:authorize="authenticated">
             <a href="/user-page">  유저 페이지  </a>
         </div>
-        <div class="link">
+        <div class="link" sec:authorize="authenticated">
             <a href="/admin-page">  관리자 로그인 </a>
         </div>
-
+        <div class="link" sec:authorize="authenticated">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">  로그아웃 </button>
+            </form>
+        </div>
     </div>
 </div>
 <script th:src="@{/js/bootstrap.js}" />
