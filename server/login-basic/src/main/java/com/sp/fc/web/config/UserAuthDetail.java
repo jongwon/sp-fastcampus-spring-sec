@@ -10,10 +10,11 @@ import java.time.LocalDateTime;
 public class UserAuthDetail implements AuthenticationDetailsSource<HttpServletRequest, RequestInfo> {
 
     @Override
-    public RequestInfo buildDetails(HttpServletRequest context) {
+    public RequestInfo buildDetails(HttpServletRequest request) {
         return RequestInfo.builder()
                 .loginTime(LocalDateTime.now())
-                .remoteIp(context.getRemoteAddr())
+                .remoteIp(request.getRemoteAddr())
+                .sessionId(request.getSession().getId())
                 .build();
     }
 

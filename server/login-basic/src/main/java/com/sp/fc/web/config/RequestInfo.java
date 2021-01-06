@@ -15,4 +15,5 @@ public class RequestInfo {
 
     private LocalDateTime loginTime;
     private String remoteIp;
+    private String sessionId;
 }
