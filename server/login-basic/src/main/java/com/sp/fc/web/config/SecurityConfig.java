@@ -28,12 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser(User.builder()
-                    .username("user@test.com")
+                    .username("user1")
                     .password(passwordEncoder().encode("1111"))
                     .roles("USER")
                     .build())
                 .withUser(User.builder()
-                    .username("admin@test.com")
+                    .username("admin")
                     .password(passwordEncoder().encode("2222"))
                     .roles("ADMIN")
                     .build());
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     RoleHierarchy roleHierarchy(){
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USEr");
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
         return roleHierarchy;
     }
 
