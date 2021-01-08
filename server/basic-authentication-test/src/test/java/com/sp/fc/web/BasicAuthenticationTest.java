@@ -49,8 +49,22 @@ public class BasicAuthenticationTest {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
         assertEquals("hello", response.getBody());
-
     }
 
+    @DisplayName("3. POST 메시지 성공")
+    @Test
+    void test_3() {
+        String url = format("http://localhost:%d/greeting", port);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Basic "+Base64.getEncoder().encodeToString(
+                "user1:1111".getBytes()
+        ));
+        HttpEntity<String> entity = new HttpEntity<>("jongwon", httpHeaders);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        assertEquals("hello jongwon", response.getBody());
+    }
+    
     
 }
