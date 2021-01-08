@@ -13,19 +13,19 @@
     <div class="row">
         <form class="form-signin" method="post" th:action="@{/loginprocess}">
             <h1 class="h3 mb-3 font-weight-normal"> 로그인 </h1>
-            <label for="username" class="sr-only">Email address</label>
-            <input type="email"
+            <label for="username" class="sr-only"> 로그인 아이디 </label>
+            <input type="text"
                    id="username"
                    name="username"
                    class="form-control"
-                   placeholder="Email address"
+                   placeholder="아이디를 입력해 주세요"
                    required autofocus>
-            <label for="password" class="sr-only">Password</label>
+            <label for="password" class="sr-only"> 비밀번호 </label>
             <input type="password"
                    id="password"
                    name="password"
                    class="form-control"
-                   placeholder="Password"
+                   placeholder="비밀번호를 입력해 주세요"
                    required>
             <div class="checkbox mb-3">
                 <label>
