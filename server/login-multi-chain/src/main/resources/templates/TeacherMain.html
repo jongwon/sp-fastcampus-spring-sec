@@ -18,6 +18,11 @@
             <a href="/"> 홈 페이지 </a>
         </div>
 
+        <ul>
+            <li th:each="student : ${studentList}" th:object="${student}" th:text="*{username}">
+                학생
+            </li>
+        </ul>
     </div>
 </div>
 <script th:src="@{/js/bootstrap.js}" />
