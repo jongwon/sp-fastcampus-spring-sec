@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @Component
-public class UserAuthDetail implements AuthenticationDetailsSource<HttpServletRequest, RequestInfo> {
+public class CustomAuthDetail implements AuthenticationDetailsSource<HttpServletRequest, RequestInfo> {
 
     @Override
     public RequestInfo buildDetails(HttpServletRequest request) {
