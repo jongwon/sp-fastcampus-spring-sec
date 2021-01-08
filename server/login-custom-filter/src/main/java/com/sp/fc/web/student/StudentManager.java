@@ -36,9 +36,9 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
     @Override
     public void afterPropertiesSet() throws Exception {
         List.of(
-                new Student("hong@student.com", "홍길동", 3),
-                new Student("kang@student.com", "강아지", 4),
-                new Student("yoon@student.com", "윤봉길", 5)
+                new Student("hong", "홍길동", 3),
+                new Student("kang", "강아지", 4),
+                new Student("yoon", "윤봉길", 5)
         ).forEach(s->studentDB.put(s.getId(), s));
     }
 }

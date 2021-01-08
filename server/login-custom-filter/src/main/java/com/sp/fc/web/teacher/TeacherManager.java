@@ -37,7 +37,7 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
     @Override
     public void afterPropertiesSet() throws Exception {
         List.of(
-                new Teacher("choi@teacher.com", "최선생", 4)
+                new Teacher("choi", "최선생", 4)
         ).forEach(s-> teacherDB.put(s.getId(), s));
     }
 }
