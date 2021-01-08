@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+
+<div class="container center-contents">
+    <div class="row">
+        <h1 class="title display-5"> 학생 / 선생님 메인 페이지 </h1>
+    </div>
+
+    <div class="links">
+
+        <div class="link" sec:authorize="!authenticated">
+            <a href="/login">  로그인 </a>
+        </div>
+        <div class="link" sec:authorize="authenticated">
+            <a href="/student/main">  학생 페이지  </a>
+        </div>
+        <div class="link" sec:authorize="authenticated">
+            <a href="/teacher/main">  선생님 페이지 </a>
+        </div>
+        <div class="link" sec:authorize="authenticated">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">  로그아웃 </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/bootstrap.js}" />
+</body>
+</html>
