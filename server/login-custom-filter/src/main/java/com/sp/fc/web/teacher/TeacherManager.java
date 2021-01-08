@@ -1,5 +1,7 @@
 package com.sp.fc.web.teacher;
 
+import com.sp.fc.web.student.Student;
+import com.sp.fc.web.student.StudentAuthenticationToken;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,30 +11,25 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Component
 public class TeacherManager implements AuthenticationProvider, InitializingBean {
 
-    private Map<String, Teacher> teacherDB = new HashMap<>();
+    private HashMap<String, Teacher> teacherDB = new HashMap<>();
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-        if(teacherDB.containsKey(authentication.getName())){
-            Teacher teacher = teacherDB.get(authentication.getName());
-            TeacherAuthenticationToken authToken = TeacherAuthenticationToken.builder()
+        if(teacherDB.containsKey(token.getName())){
+            Teacher teacher = teacherDB.get(token.getName());
+            return TeacherAuthenticationToken.builder()
                     .principal(teacher)
-                    .details(""+teacher.getGrade())
-                    .authorities(teacher.getAuthorities())
+                    .details(teacher.getUsername())
                     .authenticated(true)
                     .build();
-            return authToken;
-        }else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -42,11 +39,10 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        List.of(
-                new Teacher("choi", "최선생", 4,
-                        Set.of(new SimpleGrantedAuthority("ROLE_TEACHER")),
-                        "t",
-                        true)
-        ).forEach(t-> teacherDB.put(t.getId(), t));
+        Set.of(
+                new Teacher("choi", "최선생", Set.of(new SimpleGrantedAuthority("ROLE_TEACHER")))
+        ).forEach(s->
+            teacherDB.put(s.getId(), s)
+        );
     }
 }
