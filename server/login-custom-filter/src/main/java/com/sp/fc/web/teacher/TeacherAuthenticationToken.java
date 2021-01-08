@@ -1,14 +1,15 @@
 package com.sp.fc.web.teacher;
 
+import com.sp.fc.web.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Set;
+import java.util.Collection;
+import java.util.HashSet;
 
 @Data
 @AllArgsConstructor
@@ -16,18 +17,19 @@ import java.util.Set;
 @Builder
 public class TeacherAuthenticationToken implements Authentication {
 
-    private String credentials; // id
-    private final Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_TEACHER"));
     private Teacher principal;
+    private String credentials;
+    private String details;
     private boolean authenticated;
 
     @Override
-    public Object getDetails() {
-        return null;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return principal == null ? new HashSet<>() : principal.getRole();
     }
 
     @Override
     public String getName() {
-        return principal == null ? "" : principal.getName();
+        return principal == null ? "" : principal.getUsername();
     }
+
 }

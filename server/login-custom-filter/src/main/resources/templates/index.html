@@ -15,16 +15,16 @@
 
     <div class="links">
 
-        <div class="link" sec:authorize="!isAuthenticated()">
+        <div class="link" sec:authorize="!authenticated">
             <a href="/login">  로그인 </a>
         </div>
-        <div class="link" sec:authorize="isAuthenticated()">
+        <div class="link" sec:authorize="authenticated">
             <a href="/student/main">  학생 페이지  </a>
         </div>
-        <div class="link" sec:authorize="isAuthenticated()">
+        <div class="link" sec:authorize="authenticated">
             <a href="/teacher/main">  선생님 페이지 </a>
         </div>
-        <div class="link" sec:authorize="isAuthenticated()">
+        <div class="link" sec:authorize="authenticated">
             <form th:action="@{/logout}" method="post">
                 <button type="submit">  로그아웃 </button>
             </form>

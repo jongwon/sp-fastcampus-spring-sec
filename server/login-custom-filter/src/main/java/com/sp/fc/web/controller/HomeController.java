@@ -27,14 +27,15 @@ public class HomeController {
         return "loginForm";
     }
 
-    @GetMapping("/access-denied")
-    public String accessDenied(){
-        return "accessDenied";
-    }
-
     @ResponseBody
     @GetMapping("/auth")
     public Authentication auth(){
         return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+
+    @GetMapping("/access-denied")
+    public String accessDenied(){
+        return "accessDenied";
     }
 }

@@ -1,43 +1,48 @@
 package com.sp.fc.web.teacher;
 
+import com.sp.fc.web.student.Student;
 import com.sp.fc.web.student.StudentAuthenticationToken;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @Component
 public class TeacherManager implements AuthenticationProvider, InitializingBean {
 
-    private Map<String, Teacher> teacherDB = new HashMap<>();
+    private HashMap<String, Teacher> teacherDB = new HashMap<>();
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        TeacherAuthenticationToken token = (TeacherAuthenticationToken) authentication;
-        if(teacherDB.containsKey(authentication.getCredentials())){
-            Teacher teacher = teacherDB.get(authentication.getCredentials());
-            token.setPrincipal(teacher);
-            token.setAuthenticated(true);
-        }else{
-            token.setAuthenticated(false);
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+        if(teacherDB.containsKey(token.getName())){
+            Teacher teacher = teacherDB.get(token.getName());
+            return TeacherAuthenticationToken.builder()
+                    .principal(teacher)
+                    .details(teacher.getUsername())
+                    .authenticated(true)
+                    .build();
         }
-        return token;
+        return null;
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication == TeacherAuthenticationToken.class;
+        return authentication == UsernamePasswordAuthenticationToken.class;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        List.of(
-                new Teacher("choi", "최선생", 4)
-        ).forEach(s-> teacherDB.put(s.getId(), s));
+        Set.of(
+                new Teacher("choi", "최선생", Set.of(new SimpleGrantedAuthority("ROLE_TEACHER")))
+        ).forEach(s->
+            teacherDB.put(s.getId(), s)
+        );
     }
 }
