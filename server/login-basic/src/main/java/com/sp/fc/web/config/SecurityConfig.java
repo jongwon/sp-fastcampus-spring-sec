@@ -18,25 +18,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserAuthDetail userAuthDetail;
+    private final CustomAuthDetail customAuthDetail;
 
-    public SecurityConfig(UserAuthDetail userAuthDetail) {
-        this.userAuthDetail = userAuthDetail;
+    public SecurityConfig(CustomAuthDetail customAuthDetail) {
+        this.customAuthDetail = customAuthDetail;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser(User.builder()
-                    .username("user1")
-                    .password(passwordEncoder().encode("1111"))
-                    .roles("USER")
-                    .build())
-                .withUser(User.builder()
-                    .username("admin")
-                    .password(passwordEncoder().encode("2222"))
-                    .roles("ADMIN")
-                    .build());
+        auth
+                .inMemoryAuthentication()
+                .withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("user1")
+                                .password("1111")
+                                .roles("USER")
+                ).withUser(
+                User.withDefaultPasswordEncoder()
+                        .username("admin")
+                        .password("2222")
+                        .roles("ADMIN")
+        );
     }
 
     @Bean
@@ -44,11 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
         return roleHierarchy;
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -63,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .loginProcessingUrl("/loginprocess")
                         .permitAll()
                         .defaultSuccessUrl("/", false)
-                        .authenticationDetailsSource(userAuthDetail)
+                        .authenticationDetailsSource(customAuthDetail)
                         .failureUrl("/login-error")
                 )
                 .logout(logout->
