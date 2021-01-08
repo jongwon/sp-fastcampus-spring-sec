@@ -15,21 +15,13 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/teacher")
-public class TeacherController {
+@RequestMapping("/api/teacher")
+public class ApiTeacherController {
 
     private final StudentManager studentManager;
 
-    public TeacherController(StudentManager studentManager) {
+    public ApiTeacherController(StudentManager studentManager) {
         this.studentManager = studentManager;
-    }
-
-    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
-    @GetMapping("/main")
-    public String main(@AuthenticationPrincipal Teacher teacher, Model model){
-        teacher.setStudentList(studentManager.getMyStudents(teacher.getId()));
-        model.addAttribute("studentList", teacher.getStudentList());
-        return "TeacherMain";
     }
 
     @ResponseBody
