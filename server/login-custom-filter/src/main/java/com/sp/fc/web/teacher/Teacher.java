@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Teacher {
 
     private String id;
-    private String name;
-    private int grade;
+    private String username;
+    private Set<GrantedAuthority> role;
 
 }
