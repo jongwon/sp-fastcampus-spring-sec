@@ -1,14 +1,18 @@
 package com.sp.fc.web.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HomeController {
 
-    @RequestMapping("/greeting")
-    public String hello(){
-        return "Hello jongwon";
+    @GetMapping("/greeting")
+    public String greeting(){
+        return "hello";
+    }
+
+    @PostMapping("/greeting")
+    public String greeting(@RequestBody  String name){
+        return "hello "+name;
     }
 
 }
