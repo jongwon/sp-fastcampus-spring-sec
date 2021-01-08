@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Set;
 
@@ -17,17 +16,13 @@ import java.util.Set;
 public class TeacherAuthenticationToken implements Authentication {
 
     private String credentials; // id
-    private final Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_TEACHER"));
+    private Set<GrantedAuthority> authorities;
     private Teacher principal;
     private boolean authenticated;
-
-    @Override
-    public Object getDetails() {
-        return null;
-    }
+    private String details;
 
     @Override
     public String getName() {
-        return principal == null ? "" : principal.getName();
+        return principal == null ? "" : principal.getUsername();
     }
 }

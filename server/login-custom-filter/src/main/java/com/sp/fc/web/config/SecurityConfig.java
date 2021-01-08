@@ -12,11 +12,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    UsernamePasswordAuthenticationFilter filter;
 
     private final StudentManager studentManager;
     private final TeacherManager teacherManager;
@@ -26,11 +30,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.teacherManager = teacherManager;
     }
 
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .authenticationProvider(studentManager)
-                .authenticationProvider(teacherManager);
+                .authenticationProvider(teacherManager)
+                ;
     }
 
     @Bean
@@ -42,26 +52,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomLoginFilter loginFilter = new CustomLoginFilter(authenticationManager());
-
         http
                 .authorizeRequests(request->
                         request
                                 .antMatchers("/").permitAll()
-                                .antMatchers("/login").permitAll()
-                                .antMatchers("/customlogin").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(login->
                         login.loginPage("/login")
-//                        .loginProcessingUrl("/customlogin")
-//                        .permitAll()
-//                        .defaultSuccessUrl("/", false)
-//                        .failureUrl("/login-error")
-                        )
+                        .permitAll()
+                        .defaultSuccessUrl("/", false)
+                        .failureUrl("/login-error")
+                )
                 .logout(logout->logout.logoutSuccessUrl("/"))
                 .exceptionHandling(exception->exception.accessDeniedPage("/access-denied"))
-                .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
                 ;
     }
 
