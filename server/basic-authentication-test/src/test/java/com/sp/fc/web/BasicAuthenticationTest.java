@@ -65,7 +65,6 @@ public class BasicAuthenticationTest {
 
         assertEquals("hello jongwon", response.getBody());
     }
-
-
+    
     
 }

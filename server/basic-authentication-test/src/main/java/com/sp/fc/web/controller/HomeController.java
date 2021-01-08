@@ -13,6 +13,7 @@ public class HomeController {
     @PostMapping("/greeting")
     public String greeting(@RequestBody  String name){
         return "hello "+name;
+
     }
 
 }
