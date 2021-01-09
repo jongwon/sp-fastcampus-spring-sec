@@ -13,15 +13,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
+
 @Order(1)
-public class SpaSecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+public class MobileSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final StudentManager studentManager;
     private final TeacherManager teacherManager;
 
-    public SpaSecurityConfig(StudentManager studentManager, TeacherManager teacherManager) {
+    public MobileSecurityConfig(StudentManager studentManager, TeacherManager teacherManager) {
         this.studentManager = studentManager;
         this.teacherManager = teacherManager;
     }
@@ -39,20 +40,10 @@ public class SpaSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatcher("/api/**")
                 .csrf().disable()
                 .authorizeRequests(request->
-                        request
-//                                .antMatchers("/", "/login").permitAll()
-                        .anyRequest().authenticated()
+                        request.anyRequest().authenticated()
                 )
                 .httpBasic()
-//                .logout(logout->logout.logoutSuccessUrl("/"))
-//                .exceptionHandling(e->e.accessDeniedPage("/access-denied"))
                 ;
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                ;
-    }
 }

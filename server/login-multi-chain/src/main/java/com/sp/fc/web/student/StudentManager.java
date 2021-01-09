@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Component
 public class StudentManager implements AuthenticationProvider, InitializingBean {
@@ -40,8 +38,8 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
         return authentication == UsernamePasswordAuthenticationToken.class;
     }
 
-    public List<Student> getMyStudents(String teacherId){
-        return studentDB.values().stream().filter(s->s.getTeacherId().equals(teacherId))
+    public List<Student> myStudentList(String teacherId){
+        return studentDB.values().stream().filter(s-> s.getTeacherId().equals(teacherId))
                 .collect(Collectors.toList());
     }
 

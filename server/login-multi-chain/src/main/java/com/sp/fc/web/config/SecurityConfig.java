@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Order(2)
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -41,6 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         request.antMatchers("/", "/login").permitAll()
                         .anyRequest().authenticated()
                 )
+//                .formLogin(
+//                        login->login.loginPage("/login")
+//                        .permitAll()
+//                        .defaultSuccessUrl("/", false)
+//                        .failureUrl("/login-error")
+//                )
                 .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout->logout.logoutSuccessUrl("/"))
                 .exceptionHandling(e->e.accessDeniedPage("/access-denied"))
