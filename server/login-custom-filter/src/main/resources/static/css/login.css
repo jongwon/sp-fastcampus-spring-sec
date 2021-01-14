@@ -58,3 +58,10 @@ body {
   text-align: center;
   color: red;
 }
+.type-select {
+  padding-bottom: 20px;
+  text-align: center;
+}
+.type-select input {
+  margin: 0em 0em 0em 1em;
+}
