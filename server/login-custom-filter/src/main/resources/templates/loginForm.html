@@ -27,10 +27,15 @@
                    class="form-control"
                    placeholder="비밀번호를 입력해 주세요"
                    required>
+
             <div class="checkbox mb-3">
                 <label>
                     <input type="checkbox" name="remember-me"> Remember me
                 </label>
+            </div>
+            <div class="type-select">
+                <input type="radio" name="type" value="student" checked> 학생
+                <input type="radio" name="type" value="teacher"> 선생님
             </div>
             <button class="btn btn-lg btn-primary btn-block"  type="submit"> 로그인 </button>
             <div class="error-message" th:if="${loginError}">
