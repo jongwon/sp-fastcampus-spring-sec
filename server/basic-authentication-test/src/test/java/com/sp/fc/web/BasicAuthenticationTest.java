@@ -1,20 +1,20 @@
 package com.sp.fc.web;
 
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import org.springframework.http.HttpHeaders;
-
 import java.util.Base64;
 
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -24,47 +24,48 @@ public class BasicAuthenticationTest {
     @LocalServerPort
     int port;
 
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate client = new RestTemplate();
 
-    @DisplayName("1. 인증 에러")
+    private String greetingUrl(){
+        return "http://localhost:"+port+"/greeting";
+    }
+
+    @DisplayName("1. 인증 실패")
     @Test
     void test_1(){
         HttpClientErrorException exception = assertThrows(HttpClientErrorException.class, () -> {
-            String response = restTemplate.getForObject(
-                    format("http://localhost:%d/greeting", port), String.class);
+            client.getForObject(greetingUrl(), String.class);
         });
         assertEquals(401, exception.getRawStatusCode());
     }
 
+
     @DisplayName("2. 인증 성공")
     @Test
     void test_2() {
-        String url = format("http://localhost:%d/greeting", port);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Basic "+Base64.getEncoder().encodeToString(
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Basic "+ Base64.getEncoder().encodeToString(
                 "user1:1111".getBytes()
         ));
-        HttpEntity<String> entity = new HttpEntity<>("", httpHeaders);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-
-        assertEquals("hello", response.getBody());
+        HttpEntity entity = new HttpEntity(null, headers);
+        ResponseEntity<String> resp = client.exchange(greetingUrl(), HttpMethod.GET, entity, String.class);
+        assertEquals("hello", resp.getBody());
     }
 
-    @DisplayName("3. POST 메시지 성공")
+    @DisplayName("3. 인증성공2 ")
     @Test
     void test_3() {
-        String url = format("http://localhost:%d/greeting", port);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Basic "+Base64.getEncoder().encodeToString(
-                "user1:1111".getBytes()
-        ));
-        HttpEntity<String> entity = new HttpEntity<>("jongwon", httpHeaders);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
-        assertEquals("hello jongwon", response.getBody());
+        TestRestTemplate testClient = new TestRestTemplate("user1", "1111");
+        String resp = testClient.getForObject(greetingUrl(), String.class);
+        assertEquals("hello", resp);
     }
-    
+
+    @DisplayName("4. POST 인증")
+    @Test
+    void test_4() {
+        TestRestTemplate testClient = new TestRestTemplate("user1", "1111");
+        ResponseEntity<String> resp = testClient.postForEntity(greetingUrl(), "jongwon", String.class);
+        assertEquals("hello jongwon", resp.getBody());
+    }
     
 }
