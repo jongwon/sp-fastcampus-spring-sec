@@ -15,12 +15,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser(User.withDefaultPasswordEncoder()
+                .withUser(
+                        User.withDefaultPasswordEncoder()
                         .username("user1")
                         .password("1111")
                         .roles("USER")
-                        .build())
-        ;
+                        .build()
+                );
     }
 
     @Override
@@ -32,4 +33,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 ;
     }
+
 }
