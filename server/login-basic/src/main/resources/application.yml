@@ -7,3 +7,8 @@ spring:
       enabled: true
     restart:
       enabled: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    check-template-location: true
