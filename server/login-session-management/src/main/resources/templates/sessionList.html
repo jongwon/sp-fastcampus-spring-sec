@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="col-12">
+        <h4> 세션 모니터링 </h4>
+    </div>
+
+    <div class="col-12">
+        <table class="table table-sm">
+
+            <tr>
+                <th> 유저 </th>
+                <th> 세션아이디 </th>
+                <th> 마지막 시간 </th>
+                <th> 종료 </th>
+            </tr>
+
+            <th:block th:each="user:${sessionList}">
+                <th:block th:each="sessionInfo,i:${user.sessions}" th:object="${sessionInfo}">
+                    <tr>
+                        <td th:if="${i.index == 0}" th:rowspan="${user.count}" th:text="${user.username}"> userame </td>
+                        <td th:text="*{sessionId}"> sessionId</td>
+                        <td th:text="*{#dates.format(time, 'yyyy-MM-dd HH:mm:ss')}"> time </td>
+                        <td>
+                            <form th:action="@{/session/expire}" method="post">
+                                <input type="hidden" name="sessionId" th:value="*{sessionId}" />
+                                <button class="btn btn-sm btn-info" type="submit">강제 종료</button>
+                            </form>
+                        </td>
+                    </tr>
+                </th:block>
+            </th:block>
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
