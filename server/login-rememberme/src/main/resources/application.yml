@@ -1,5 +1,8 @@
 server:
   port: 9056
+  servlet:
+    session:
+      timeout: 60s
 
 spring:
 
