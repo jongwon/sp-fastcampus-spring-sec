@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityMessageService {
 
-    @PreAuthorize("hasRole('ADMIN')")
+
+//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("@nameCheck.check(#name)")
     public String message(String name){
         return name;
     }
