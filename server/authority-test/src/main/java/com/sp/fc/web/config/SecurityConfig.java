@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor;
+import org.springframework.security.access.method.MethodSecurityMetadataSource;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +20,9 @@ import java.util.Collection;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    MethodSecurityInterceptor methodSecurityInterceptor;
+    MethodSecurityMetadataSource methodSecurityMetadataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,6 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .username("tutor1")
                                 .password("1111")
                                 .roles("USER", "TUTOR")
+                )
+                .withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("primary")
+                                .password("1111")
+                                .roles("USER", "PRIMARY")
                 )
                 ;
     }

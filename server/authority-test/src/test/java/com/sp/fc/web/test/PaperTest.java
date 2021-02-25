@@ -46,6 +46,23 @@ public class PaperTest extends WebIntegrationTest{
             .state(Paper.State.READY)
             .build();
 
+    @DisplayName("5. 교장선생님의 시험지 보기")
+    @Test
+    void test_5() {
+        paperService.setPaper(paper1);
+        paperService.setPaper(paper2);
+        paperService.setPaper(paper3);
+
+        client = new TestRestTemplate("primary", "1111");
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/papersByPrimary"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(3, response.getBody().size());
+        System.out.println(response.getBody());
+    }
+
 
     @DisplayName("1. user1이 시험지 리스트 조회한다. ")
     @Test
@@ -88,5 +105,7 @@ public class PaperTest extends WebIntegrationTest{
 
         assertEquals(403, response.getStatusCodeValue());
     }
+
+
 
 }
