@@ -41,6 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .password("1111")
                                 .roles("USER", "TUTOR")
                 )
+                .withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("primary")
+                                .password("1111")
+                                .roles("USER", "PRIMARY")
+                )
                 ;
     }
 
@@ -65,6 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
         };
     }
+
+
 
     @Autowired
     private NameCheck nameCheck;
