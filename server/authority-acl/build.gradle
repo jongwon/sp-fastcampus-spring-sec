@@ -1,0 +1,15 @@
+
+
+dependencies {
+    implementation("$boot:spring-boot-starter-web")
+    implementation("$boot:spring-boot-starter-cache")
+    implementation("$boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.security:spring-security-acl")
+    implementation("net.sf.ehcache:ehcache")
+
+//    runtime("com.h2database:h2")
+    runtime("mysql:mysql-connector-java")
+
+
+}
+
