@@ -22,7 +22,7 @@ public class Problem {
 
     private Long paperTemplateId;
 
-    private int indexNum;
+    private int indexNum; // 1-based
 
     private String content;
 

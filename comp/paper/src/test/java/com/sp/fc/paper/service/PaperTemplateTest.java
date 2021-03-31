@@ -29,6 +29,7 @@ public class PaperTemplateTest extends WithPaperTemplateTest {
                 .answer(answer)
                 .build();
     }
+
     @DisplayName("1. 시험지를 한개 만든다.")
     @Test
     void test_1(){
@@ -61,6 +62,8 @@ public class PaperTemplateTest extends WithPaperTemplateTest {
         paperTemplate = paperTemplateRepository.findAll().get(0);
         assertEquals(1, paperTemplate.getProblemList().get(0).getIndexNum());
         assertEquals(2, paperTemplate.getProblemList().get(1).getIndexNum());
+
+        assertEquals("문제3", paperTemplate.getProblemList().get(1).getContent());
     }
 
 

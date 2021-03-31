@@ -58,7 +58,6 @@ public class UserTest extends WithUserTest {
         User user = userTestHelper.createUser(school, "user1");
         userService.updateUsername(user.getUserId(), "user2");
         List<User> list = StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
-        assertEquals(1,list.size());
         assertEquals("user2", list.get(0).getName());
     }
 
