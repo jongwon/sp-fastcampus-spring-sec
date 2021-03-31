@@ -1,0 +1,10 @@
+
+
+dependencies {
+
+    implementation("$boot:spring-boot-starter-data-jpa")
+
+    testRuntime("com.h2database:h2")
+
+}
+
