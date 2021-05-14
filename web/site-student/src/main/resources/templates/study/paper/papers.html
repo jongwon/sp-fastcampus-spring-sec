@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/study/layout">
+<head>
+    <title> 학습 사이트  </title>
+</head>
+
+<div layout:fragment="content" >
+    <main role="main">
+        <div class="title-bar">
+            <h4> 시험지 리스트 </h4>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">시험지 명</th>
+                <th scope="col">배포일 </th>
+                <th scope="col">상태 </th>
+                <th scope="col" style="width:120px;"> &nbsp; </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="paper: ${papers}" th:object="${paper}">
+                <td th:text="*{name}"> 시험지1 </td>
+                <td th:text="*{created}"> 2020-11-23</td>
+                <td th:text="*{state}"> 푸는 중 </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" th:href="@{/study/paper/apply(paperId=${paper.paperId})}"> 응시 </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+
+</div>
+</html>

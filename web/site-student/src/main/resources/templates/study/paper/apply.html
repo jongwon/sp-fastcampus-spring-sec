@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/study/layout">
+<head>
+    <title> 학습 사이트  </title>
+</head>
+
+<div layout:fragment="content" >
+
+    <main role="main">
+        <div class="title-bar" style="margin-bottom: 1em;">
+            <h4> [<span th:text="${paperName}"> 시험지 이름 </span>]  </h4>
+        </div>
+        <!--
+            private Long paperId;
+            private Long problemId;
+            private Integer indexNum;
+            private String answer;
+        -->
+        <div >
+
+            <div class="card m-b-30" th:if="${!alldone}">
+                <form method="post" action="/study/paper/answer">
+                    <input type="hidden" name="paperId" th:value="${paperId}" />
+                    <div class="card-body py-5">
+                        <div class="row">
+                            <div class="col-lg-2 text-center paper-clip-img">
+                                <i class="fa fa-pencil" style="font-size: 5em;"></i>
+                            </div>
+                            <div class="col-lg-10">
+                                <div th:if="${problem != null}" th:object="${problem}">
+                                    <input type="hidden" name="problemId" th:value="*{problemId}" />
+                                    <input type="hidden" name="indexNum" th:value="*{indexNum}" />
+                                    <h4 style="margin-left: 10px;"> <span th:text="*{indexNum}">3</span> 번 문제 </h4>
+                                    <div class="table-responsive" >
+                                        <table class="table table-borderless mb-0">
+                                            <tbody>
+                                            <tr>
+                                                <th scope="row" style="min-width: 80px;min-height:100px;">문제 </th>
+                                                <td class="p-1">
+                                                    <div class="content" style="margin-bottom: 2em;" th:text="*{content}">
+                                                        문제 내용은 다음과 같습니다. ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ
+                                                        ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ
+                                                        ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" style="min-width: 80px;">정답   :</th>
+                                                <td class="p-1">
+                                                    <input type="text" class="form-control" id="answer" name="answer" autofocus placeholder="" required>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; padding: 3em;">
+                                    <button type="submit"
+                                            class="btn btn-block btn-outline-primary"> 정답 체크 / 다음 문제 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card m-b-30" th:if="${alldone}">
+                <div class="card-body py-5">
+                    <div class="row">
+                        <div class="col-lg-2 text-center paper-clip-img">
+                            <i class="fa fa-pencil" style="font-size: 5em;"></i>
+                        </div>
+                        <div class="col-lg-10">
+                            <div style="width: 100%; padding: 3em;">
+                                <a th:href="@{/study/paper/done(paperId=${paperId})}" class="btn btn-block btn-outline-primary"> 체점 / 결과 보기 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+</html>

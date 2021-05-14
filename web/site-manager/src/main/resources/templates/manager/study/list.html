@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/manager/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" href="/css/index.css" />-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+    <main role="main">
+
+        <div class="title-bar">
+            <h4> 학생 리스트 </h4>
+<!--            <div class="buttons">-->
+<!--                <button type="button" class="btn btn-sm btn-info"> 등록 </button>-->
+<!--            </div>-->
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"> 학교 </th>
+                <th scope="col"> 학년 </th>
+                <th scope="col"> 이름 </th>
+                <th scope="col"> 이메일 </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${page?.content}" th:object="${s}">
+                <td th:text="*{schoolName}">선원초 </td>
+                <td th:text="*{grade}">1</td>
+                <td th:text="*{name}"> jongwon </td>
+                <td th:text="*{email}">test@name.com</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="/paging.html :: paging(path='/manager/study/lis', page=${page})" />
+
+    </main>
+</div>
+
+</html>

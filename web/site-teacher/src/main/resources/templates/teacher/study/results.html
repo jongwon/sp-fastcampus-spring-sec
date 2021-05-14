@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/teacher/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" href="/css/index.css" />-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+    <main role="main">
+
+        <div class="title-bar">
+            <h4> [ <span th:text="${template.name}">시험지 이름</span> ] 시험지 배포 결과 </h4>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"> 학습자 </th>
+                <th scope="col"> 상태 </th>
+                <th scope="col"> 시작일  </th>
+                <th scope="col"> 종료일 </th>
+                <th scope="col" style="width:150px;"> 결과 </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="paper : ${papers}" th:object="${paper}">
+                <td th:text="*{user.name}"> 홍길동 </td>
+                <td th:text="*{state}"> READY </td>
+                <td th:text="*{startTime}"> 2020-11-20  </td>
+                <td th:text="*{endTime}"> 2020-11-23</td>
+                <td>
+                    <div th:if="*{state == T(com.sp.fc.paper.domain.Paper.PaperState).END}">
+                        <span th:text="*{#numbers.formatDecimal(score, 2, 1)}"> 80 </span> 점
+                        ( <span th:text="*{correct}">5</span> / <span th:text="*{total}">7</span> )
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+</html>

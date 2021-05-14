@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/study/layout">
+<head>
+    <title> 학습 사이트  </title>
+</head>
+
+<div layout:fragment="content" >
+    <main role="main">
+        <div class="title-bar">
+            <h4> 시험 결과  </h4>
+        </div>
+        <!--
+            private Long paperTemplateId;
+            private Long paperId;
+            private Long problemId;
+            private Integer indexNum;
+            private String answer;
+        -->
+        <div >
+
+        </div>
+        <div class="paper-result">
+            <div class="card m-b-30">
+                <div class="card-body py-5">
+                    <div class="row">
+                        <div class="col-lg-2 text-center paper-clip-img">
+                            <i class="fa fa-file-text-o" style="font-size: 5em;"></i>
+                        </div>
+                        <div class="col-lg-10" th:object="${paper}">
+                            <h4> <span th:text="*{name}">기초 상식 퀴즈</span> </h4>
+                            <div class="table-responsive">
+                                <table class="table table-borderless mb-0">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row" class="p-1">총  :</th>
+                                        <td class="p-1"> <span th:text="*{total}">7</span> 문제 </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="p-1">시작 시간  :</th>
+                                        <td class="p-1"> <span th:text="*{startTime}">2020-11-10T12:12</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="p-1">종료 시간 :</th>
+                                        <td class="p-1"> <span th:text="*{endTime}">2020-11-10T12:12</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="p-1"> 정답  :</th>
+                                        <td class="p-1"> <span th:text="*{correct}">5</span>개 </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="p-1"> 100점 환산 점수:</th>
+                                        <td class="p-1"> <span th:text="${#numbers.formatDecimal(paper.score, 2, 1)}">85.5</span> 점 </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="width: 100%; padding: 3em;">
+                                <a href="javascript:window.history.back();"
+                                   class="btn btn-block btn-outline-primary"> 돌아가기 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+</html>

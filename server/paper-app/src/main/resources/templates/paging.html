@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<bock th:fragment="paging">
+    <div th:if="${paging != null}">
+    <nav aria-label="Page navigation example" th:with="start=${T(Math).floor(page.number/10)*10 + 1}">
+
+        <ul class="pagination justify-content-center"
+            th:with="last=(${start + 9 < page.totalPages ? start + 9 : page.totalPages})">
+            <li class="page-item">
+                <a class="page-link" th:href="@{${path}(pageNum=1)}" aria-label="First">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:class="${page.first} ? 'disabled'">
+                <a class="page-link" th:href="${page.first} ? '#' :@{${path}(pageNum=${page.number})}" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:each="p: ${#numbers.sequence(start, last)}" th:class="${p == page.number + 1} ? 'active'">
+                <a class="page-link"  th:text="${p}" th:href="@{${path}(pageNum=${p})}"></a>
+            </li>
+
+            <li class="page-item" th:class="${page.last} ? 'disabled'">
+                <a class="page-link"  th:href="${page.last} ? '#' : @{${path}(pageNum=${page.number + 2})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" th:href="@{${path}(pageNum=${page.totalPages})}" aria-label="Last">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    </div>
+</bock>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/teacher/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" href="/css/index.css" />-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+    <main role="main">
+
+        <div class="title-bar">
+            <h4> 학생 리스트 </h4>
+            <div class="buttons">
+                <button type="button" class="btn btn-sm btn-info"> 등록 </button>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">학교</th>
+                <th scope="col">학년</th>
+                <th scope="col">학생</th>
+                <th scope="col"> Email </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="study : ${studyList}" th:object="${study}">
+                <td th:text="*{school == null ? '' : school.name}">선원초 </td>
+                <td th:text="*{grade}">1</td>
+                <td th:text="*{name}">@mdo</td>
+                <td th:text="*{email}">@mdo</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </main>
+</div>
+
+</html>

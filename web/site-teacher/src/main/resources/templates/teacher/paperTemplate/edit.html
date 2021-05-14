@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/teacher/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" href="/css/index.css" />-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+
+    <main role="main">
+
+        <div class="row">
+
+            <div class="col-md-6 order-md-6 mb-6 problem-list-area">
+                <h4 class="mb-12"> 문제 리스트  </h4>
+
+                <div class="row">
+                    <div class="card shadow-sm" th:each="p : ${template.problemList}" th:object="${p}">
+                        <div class="card-header" style="display: flex; justify-content: space-between;">
+                            <span> <span th:text="*{indexNum}">1</span> 번 </span>
+                            <span> 정답 : <span th:text="*{answer}"> 눈사람  </span> </span>
+                        </div>
+                        <div class="card-body" th:text="*{content}">
+                            겨울이 가장 기다려지는 사람은 ?
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 order-md-6 mb-6">
+                <div class="problem-editor">
+                    <form method="post" action="/teacher/paperTemplate/problem/add">
+                        <h4 class="mb-12"> 문제 등록 </h4>
+                        <hr class="mb-4">
+                        <input type="hidden" name="paperTemplateId" th:value="${template.paperTemplateId}"/>
+                        <div class="row" >
+                            <div class="col-md-12 mb-12">
+                                <label for="content"> 문제 </label>
+                                <textarea type="text" class="form-control"
+                                          id="content" name="content" placeholder=""
+                                          required></textarea>
+                                <small class="text-muted"> 문제를 입력해 주세요  </small>
+                                <div class="invalid-feedback">
+                                    문제가 비어있거나 올바르지 않습니다.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-12 mb-12">
+                                <label for="answer"> 정답 </label>
+                                <input type="text" class="form-control"
+                                       id="answer" name="answer" placeholder="" required>
+                                <small class="text-muted"> 정답을 입력해 주세요. </small>
+                                <div class="invalid-feedback">
+                                    정답이 비어있거나 올바르지 않습니다.
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <div class="col-md-6 mb-6 mx-auto">
+                            <button class="btn btn-secondary btn btn-block" type="submit">
+                                등록하기
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+</html>

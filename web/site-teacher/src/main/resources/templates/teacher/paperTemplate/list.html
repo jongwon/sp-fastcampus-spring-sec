@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/teacher/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" href="/css/index.css" />-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+    <main role="main">
+
+        <div class="title-bar">
+            <h4> 시험지 리스트 </h4>
+            <div class="buttons">
+                <a type="button" class="btn btn-sm btn-info" href="/teacher/paperTemplate/create"> + 등록 </a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">시험지 명</th>
+                <th scope="col">작성일</th>
+                <th scope="col">문항수 </th>
+                <th scope="col">완료(배포) </th>
+                <th scope="col" style="width:120px;"> &nbsp; </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="template : ${page?.content}" th:object="${template}">
+                <td th:text="*{name}"> 시험지 템플릿 이름</td>
+                <td th:text="*{created}"> 2020-11-20  </td>
+                <td th:text="*{total}"> 2020-11-23</td>
+                <td>
+                    <div th:if="*{publishedCount > 0}">
+                        ( <span th:text="*{completeCount}">3</span> ) <span th:text="*{publishedCount}">50</span>
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-secondary" th:href="@{/teacher/paperTemplate/edit(paperTemplateId=${template.paperTemplateId})}">수정 </a>
+                    <a class="btn btn-sm btn-primary" th:if="${template.total > 0 && template.publishedCount == 0}"
+                        th:href="@{/teacher/paperTemplate/publish(paperTemplateId=${template.paperTemplateId})}"
+                    >배포 </a>
+                    <a class="btn btn-sm btn-secondary" th:if="${template.publishedCount > 0}"
+                       th:href="@{/teacher/study/results(paperTemplateId=${template.paperTemplateId})}"
+                    >결과 </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <div th:replace="/paging.html :: paging(path='/teacher/paperTemplate/list', page=${page})" />
+
+    </main>
+</div>
+
+</html>

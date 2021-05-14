@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/manager/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" href="/css/index.css" />-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+    <main role="main">
+
+        <div class="col-md-12 order-md-12 mb-12">
+            <form method="post" action="/manager/school/save">
+            <h4 class="mb-12"> 학교 등록 / 수정 </h4>
+            <hr class="mb-4">
+            <input type="hidden" name="schoolId" th:value="${school.schoolId}"/>
+            <div class="row" style="margin-bottom: 5em;">
+                <div class="col-md-6 mb-6">
+                    <label for="city"> 지역 </label>
+                    <input type="text" class="form-control" id="city" name="city" th:value="${school.city}" placeholder="" required>
+                    <small class="text-muted"> 지역명을 입력해 주세요. </small>
+                    <div class="invalid-feedback">
+                        지역 명이 비어있거나 올바르지 않습니다.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6">
+                    <label for="name"> 학교명 </label>
+                    <input type="text" class="form-control" id="name" name="name" th:value="${school.name}" placeholder="" required>
+                    <small class="text-muted"> 학교명을 입력해 주세요. </small>
+                    <div class="invalid-feedback">
+                        학교명을 입력해 주세요.
+                    </div>
+                </div>
+            </div>
+
+            <hr class="mb-4">
+            <div class="col-md-6 mb-6 mx-auto">
+                <button class="btn btn-secondary btn btn-block" type="submit">
+                    등록하기
+                </button>
+            </div>
+            </form>
+        </div>
+
+    </main>
+</div>
+
+</html>

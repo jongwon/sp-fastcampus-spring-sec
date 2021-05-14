@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/manager/layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<div layout:fragment="content">
+    <main role="main">
+
+        <div class="title-bar">
+            <h4> 선생님 리스트 </h4>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">학교</th>
+                <th scope="col">선생님</th>
+                <th scope="col">아이디</th>
+                <th scope="col">학생 수(명) </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="data : ${page?.content}" th:object="${data}">
+                <td th:text="*{schoolName}">선원초 </td>
+                <td th:text="*{name}">Otto</td>
+                <td th:text="*{email}">test@test.com</td>
+                <th  th:text="*{studentCount}"> 0 </th>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="/paging.html :: paging(path='/manager/teacher/lis', page=${page})" />
+
+    </main>
+</div>
+
+</html>
