@@ -24,7 +24,9 @@ public class StudyMngController {
             Model model
     ){
         model.addAttribute("menu", "study");
-
+        Page<StudyData> studyList = userService.listStudents(pageNum, size)
+                .map(s->new StudyData(s.getSchool().getName(), s.getUserId(), s.getName(), s.getEmail(), s.getGrade()));
+        model.addAttribute("page", studyList);
         return "manager/study/list.html";
     }
 

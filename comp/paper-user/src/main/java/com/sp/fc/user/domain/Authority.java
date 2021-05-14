@@ -20,6 +20,7 @@ import javax.persistence.Table;
 @IdClass(Authority.class)
 public class Authority implements GrantedAuthority {
 
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_TEACHER = "ROLE_TEACHER";
     public static final String ROLE_STUDENT = "ROLE_STUDENT";
 

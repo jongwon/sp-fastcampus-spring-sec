@@ -31,12 +31,9 @@
     <form class="form-signin" method="post" th:action="@{/login}">
         <h1 class="h3 mb-3 font-weight-normal"> 로그인 </h1>
         <label for="username" class="sr-only">Email address</label>
-        <!--      <input type="email" -->
-        <!--             id="username" name="username" class="form-control" placeholder="Email address" required autofocus>-->
-        <input type="text"
-               id="username" name="username" class="form-control" placeholder="Email address" autofocus>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password"  class="form-control" placeholder="Password">
+        <input type="email"
+             id="username" name="username" class="form-control" placeholder="Email address" required autofocus><label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password"  class="form-control" placeholder="Password" required>
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" name="remember-me"> Remember me
@@ -45,7 +42,7 @@
         <input type="hidden" name="site" th:value="${site}" />
         <input type="hidden" name="redirectUrl" th:value="${'/'+site}" />
         <button class="btn btn-lg btn-primary btn-block" th:classappend="${site}" type="submit"> 로그인 </button>
-        <a th:if="${!site.equals('manager')} " class="btn btn-lg btn-secondary btn-block" th:href="@{/signup(site=${site})}"> 회원 가입 </a>
+        <a th:if="${!site.equals('manager')} " class="btn btn-lg btn-secondary btn-block" th:href="@{'/signup/'+${site}}"> 회원 가입 </a>
 
         <div class="link-site">
             <ul>

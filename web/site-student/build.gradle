@@ -3,6 +3,8 @@ apply from: "../web-common.gradle"
 
 dependencies {
 
+    implementation("org.springframework:spring-tx")
+
     compile project(":comp-paper")
     compile project(":comp-paper-user")
 }

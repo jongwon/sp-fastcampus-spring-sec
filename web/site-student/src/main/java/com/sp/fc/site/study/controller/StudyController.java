@@ -7,12 +7,15 @@ import com.sp.fc.paper.domain.Problem;
 import com.sp.fc.paper.service.PaperService;
 import com.sp.fc.paper.service.PaperTemplateService;
 import com.sp.fc.site.study.controller.vo.Answer;
-import com.sp.fc.user.domain.School;
+import com.sp.fc.site.study.controller.vo.StudySignUpForm;
+import com.sp.fc.user.domain.Authority;
 import com.sp.fc.user.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
+import com.sp.fc.user.service.SchoolService;
+import com.sp.fc.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,74 +23,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping(value="/study")
+@RequiredArgsConstructor
 public class StudyController {
 
-    @Autowired
-    private PaperTemplateService paperTemplateService;
+    private final PaperTemplateService paperTemplateService;
 
-    @Autowired
-    private PaperService paperService;
+    private final PaperService paperService;
 
     @RequestMapping({"", "/"})
     public String  index(@AuthenticationPrincipal User user, Model model){
 
         // 학생수와 문제지 수
-        model.addAttribute("paperCount", 1);
-        model.addAttribute("resultCount", 1);
+        model.addAttribute("paperCount", paperService.countPapersByUserIng(user.getUserId()));
+        model.addAttribute("resultCount", paperService.countPapersByUserResult(user.getUserId()));
 
-
-        return "/study/index";
+        return "/study/index.html";
     }
 
-    @GetMapping("/signup")
-    public String signUp(){
-        return "/study/signup";
-    }
-
-    private User user(){
-        return User.builder()
-                .userId(1L)
-                .name("홍길동")
-                .email("hong@test.com")
-                .grade("3")
-                .enabled(true)
-                .school(School.builder().schoolId(1L).name("테스트 학교").city("서울").build())
-                .build();
-    }
-
-    private PaperTemplate paperTemplate(){
-        return PaperTemplate.builder()
-                .paperTemplateId(1L)
-                .name("테스트 시험지")
-                .creator(user())
-                .userId(1L)
-                .publishedCount(1)
-                .build();
-    }
-
-    private List<Paper> paperList(){
-        return List.of(Paper.builder()
-                .name("테스트 시험지")
-                .paperTemplateId(1L)
-                .state(Paper.PaperState.START)
-                .total(2)
-                .paperId(1L)
-                .studyUserId(1L)
-                .user(user())
-                .build());
-    }
 
     // 시험지 리스트
     @GetMapping("/papers")
     public String paperList(@AuthenticationPrincipal User user, Model model){
         model.addAttribute("menu", "paper");
-        model.addAttribute("papers", paperList());
+        model.addAttribute("papers", paperService.getPapersByUserIng(user.getUserId()));
         return "/study/paper/papers.html";
     }
 
@@ -99,7 +62,7 @@ public class StudyController {
     ){
         model.addAttribute("menu", "result");
         model.addAttribute("page",
-                new PageImpl(paperList())
+                paperService.getPapersByUserResult(user.getUserId(), pageNum, size)
         );
         return "/study/paper/results.html";
     }
@@ -109,18 +72,26 @@ public class StudyController {
     @GetMapping(value="/paper/apply")
     public String applyPaper(@RequestParam Long paperId, @AuthenticationPrincipal User user, Model model){
         model.addAttribute("menu", "paper");
+        Paper paper = paperService.findPaper(paperId).get();
+        if(paper.getState() == Paper.PaperState.END){
+            return "redirect:/study/paper/result?paperId="+paperId;
+        }
+
+        // 시험지에서 풀이를 가져온다.
+        Map<Integer, PaperAnswer> answerMap = paper.answerMap();
+
+        // 안푼 문제를 번호와 함껜 내려준다.
+        PaperTemplate template = paperTemplateService.findById(paper.getPaperTemplateId()).orElseThrow(() -> new IllegalArgumentException(paper.getPaperTemplateId() + " 시험지가 존재하지 않습니다."));
+        Optional<Problem> notAnsweredProblem = template.getProblemList().stream().filter(problem -> !answerMap.containsKey(problem.getIndexNum())).findFirst();
 
         model.addAttribute("paperId", paperId);
-        model.addAttribute("paperName", "테스트 시험지");
-
-        model.addAttribute("problem", Problem.builder()
-                .content("문제")
-                .answer("정답")
-                .indexNum(1)
-                .paperTemplateId(1L)
-                .build());
-        model.addAttribute("alldone", false);
-
+        model.addAttribute("paperName", paper.getName());
+        if(notAnsweredProblem.isPresent()){
+            model.addAttribute("problem", notAnsweredProblem.get());
+            model.addAttribute("alldone", false);
+        }else{
+            model.addAttribute("alldone", true);
+        }
         return "/study/paper/apply.html";
     }
 
@@ -132,22 +103,23 @@ public class StudyController {
     // 정답 제출
     @PostMapping(value="/paper/answer", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public String answer(Answer answer, @AuthenticationPrincipal User user, Model model){
-
-        return "redirect:/study/paper/apply.html?paperId="+answer.getPaperId();
+        paperService.answer(answer.getPaperId(), answer.getProblemId(), answer.getIndexNum(), answer.getAnswer());
+        return "redirect:/study/paper/apply?paperId="+answer.getPaperId();
     }
 
     // 시험 완료
     @GetMapping("/paper/done")
     public String donePaper(Long paperId){
-
-        return "redirect:/study/paper/result.html?paperId="+paperId;
+        paperService.paperDone(paperId);
+        return "redirect:/study/paper/result?paperId="+paperId;
     }
 
     // 결과 시험지 리스트
     @GetMapping("/paper/result")
     public String paperResult(Long paperId, @AuthenticationPrincipal User user, Model model){
         model.addAttribute("menu", "result");
-        model.addAttribute("paper", paperList().get(0));
+        Paper paper = paperService.findPaper(paperId).orElseThrow(()->new IllegalArgumentException("시험지가 존재하지 않습니다."));
+        model.addAttribute("paper", paper);
         return "/study/paper/result.html";
     }
 }
