@@ -1,0 +1,9 @@
+
+apply from: "../web-common.gradle"
+
+dependencies {
+
+    compile project(":comp-paper")
+    compile project(":comp-paper-user")
+}
+
