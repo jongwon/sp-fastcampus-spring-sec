@@ -68,14 +68,17 @@ public class OnlinePaperSecurityConfig extends WebSecurityConfigurerAdapter {
                             ;
                 })
                 .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception->{
+                    exception.accessDeniedPage("/access-denied");
+                })
                 .authorizeRequests(config->{
                     config
                             .antMatchers("/").permitAll()
                             .antMatchers("/login").permitAll()
                             .antMatchers("/error").permitAll()
                             .antMatchers("/signup/*").permitAll()
-                            .antMatchers("/study/**").hasAuthority("ROLE_STUDENT")
-                            .antMatchers("/teacher/**").hasAuthority("ROLE_TEACHER")
+                            .antMatchers("/study/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_STUDENT")
+                            .antMatchers("/teacher/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_TEACHER")
                             .antMatchers("/manager/**").hasAuthority("ROLE_ADMIN")
                     ;
                 })

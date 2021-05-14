@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -71,12 +72,15 @@ public class TeacherController {
     ){
         model.addAttribute("menu", "paper");
 
-        List<Paper> papers = paperService.getPapers(paperTemplateId);
-        Map<Long, User> userMap = userService.getUsers(papers.stream().map(p->p.getStudyUserId()).collect(Collectors.toList()));
-        papers.stream().forEach(paper -> paper.setUser(userMap.get(paper.getStudyUserId())));
-        model.addAttribute("template", paperTemplateService.findById(paperTemplateId).get());
-        model.addAttribute("papers", papers);
-        return "/teacher/study/results.html";
+        return paperTemplateService.findProblemTemplate(paperTemplateId).map(paperTemplate->{
+            List<Paper> papers = paperService.getPapers(paperTemplateId);
+            Map<Long, User> userMap = userService.getUsers(papers.stream().map(p->p.getStudyUserId()).collect(Collectors.toList()));
+            papers.stream().forEach(paper -> paper.setUser(userMap.get(paper.getStudyUserId())));
+            model.addAttribute("template", paperTemplateService.findById(paperTemplateId).get());
+            model.addAttribute("papers", papers);
+            return "/teacher/study/results.html";
+        }).orElseThrow(()->new AccessDeniedException("시험지가 존재하지 않습니다."));
+
     }
 
     @GetMapping("/paperTemplate/list")

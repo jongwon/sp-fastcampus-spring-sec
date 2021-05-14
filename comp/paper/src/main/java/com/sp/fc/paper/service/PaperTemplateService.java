@@ -3,9 +3,14 @@ package com.sp.fc.paper.service;
 import com.sp.fc.paper.domain.PaperTemplate;
 import com.sp.fc.paper.domain.Problem;
 import com.sp.fc.paper.repository.PaperTemplateRepository;
+import com.sp.fc.user.domain.Authority;
+import com.sp.fc.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,11 +83,18 @@ public class PaperTemplateService {
         problemService.updateProblem(problemId, content, answer);
     }
 
+//    @PostAuthorize("returnObject.isEmpty() || returnObject.get().userId == principal.userId")
     @Transactional(readOnly = true)
     public Optional<PaperTemplate> findProblemTemplate(Long paperTemplateId) {
         return paperTemplateRepository.findById(paperTemplateId).map(pt->{
             if(pt.getProblemList().size() != pt.getTotal()){ // lazy 해결위해 체크...
                 pt.setTotal(pt.getProblemList().size());
+            }
+            if(pt.getUserId() != ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId())
+            {
+                if(!((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().contains(Authority.ADMIN_AUTHORITY)){
+                    throw new AccessDeniedException("access denied");
+                }
             }
             return pt;
         });

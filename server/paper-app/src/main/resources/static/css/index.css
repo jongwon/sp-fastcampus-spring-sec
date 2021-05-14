@@ -87,3 +87,14 @@ body {
         display: none;
     }
 }
+
+.center-contents {
+    text-align: center;
+}
+.center-contents h1, .center-contents h2, .center-contents h3, .center-contents h4 {
+    display: inline-block;
+    margin: auto;
+}
+.center-contents .title {
+    margin-top: 1em;
+}
