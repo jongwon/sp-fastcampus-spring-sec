@@ -1,0 +1,89 @@
+body {
+    padding-bottom: 20px;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+.navbar.site-teacher {
+    background-color: #45882f !important;
+}
+.navbar.site-student {
+    background-color: #5365ad !important;
+}
+.navbar.site-manager {
+    background-color: #ba3232 !important;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: right;
+}
+
+
+.problem-list-area {
+    padding-right: 1em;
+}
+
+.problem-list-area .card {
+    width: 95%;
+    cursor: pointer;
+    margin-bottom: 1em;
+}
+
+.problem-list-area .card:hover {
+    opacity: 0.8;
+    background-color: #ddd;
+}
+
+.problem-editor {
+    position: fixed;
+    float: right;
+    width: 45%;
+    max-width: 500px;
+}
+
+.problem-editor textarea {
+    min-height: 200px;
+}
+
+@media (max-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+    .problem-list-area {
+        border-right: none;
+        height: auto;
+        overflow-y: unset;
+    }
+    .problem-editor {
+        display: block;
+        position: inherit;
+        float: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 991px) {
+    .card .paper-clip-img {
+        display: none;
+    }
+}
