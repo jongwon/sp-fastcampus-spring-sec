@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="menuFragment">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark site-manager">
+        <div class="container">
+            <a class="navbar-brand" href="/manager"> 관리자 사이트 </a>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarsExample03"
+                    aria-controls="navbarsExample03"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav mr-auto">
+                    <li
+                            class="nav-item"
+                            th:classappend="${menu=='school' ? 'active' : ''}"
+                    >
+                        <a class="nav-link" href="/manager/school/list"> 학교 관리 </a>
+                    </li>
+                    <li
+                            class="nav-item"
+                            th:classappend="${menu=='teacher' ? 'active' : ''}"
+                    >
+                        <a class="nav-link" href="/manager/teacher/list"> 선생님들 </a>
+                    </li>
+                    <li
+                            class="nav-item"
+                            th:classappend="${menu=='study' ? 'active' : ''}"
+                    >
+                        <a class="nav-link" href="/manager/study/list"> 학생들 </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav right-menus">
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a
+                                class="nav-link dropdown-toggle active"
+                                href="#"
+                                id="user-menus"
+                                data-toggle="dropdown"
+                                aria-haspopup="false"
+                                aria-expanded="false"
+                        >
+                            <i class="fa fa-user"></i>
+                            <span sec:authentication="name"> jongwon </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="user-menus">
+                            <a class="dropdown-item" href="#"> 내 정보 </a>
+                            <a class="dropdown-item" href="/logout"> 로그 아웃 </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+</html>

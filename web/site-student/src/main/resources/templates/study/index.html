@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/study/layout">
+<head>
+    <title> 학습 사이트  </title>
+</head>
+
+<div layout:fragment="content" >
+    <div class="container">
+        <div class="card-deck mb-3 text-center" style="margin-top: 3em;">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal"> 시험지 </h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title"> <span th:text="${paperCount}">1</span> 개  </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li> 아직 풀지 않은 시험지 </li>
+                    </ul>
+                    <a type="button" class="btn btn-md btn-outline-primary" href="/study/papers"> 리스트 보기 </a>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal"> 결과 </h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title"> <span th:text="${resultCount}">1</span> 개 </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li> 풀이가 완료된 시험지 </li>
+                    </ul>
+                    <a type="button" class="btn btn-md btn-outline-primary" href="/study/results"> 리스트 보기 </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

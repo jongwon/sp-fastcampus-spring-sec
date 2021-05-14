@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="/manager/layout.html"
+>
+<head>
+    <title>관리자</title>
+</head>
+
+<div layout:fragment="content">
+    <div class="container">
+        <div class="card-deck mb-3 text-center" style="margin-top: 3em;">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">학교</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                        <span th:text="${schoolCount}">0</span> 개
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>사이트 가입 학교</li>
+                    </ul>
+                    <a
+                            type="button"
+                            class="btn btn-md btn-outline-primary"
+                            href="/mng/school/list"
+                    >
+                        리스트 보기
+                    </a>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">선생님</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                        <span th:text="${teacherCount}">0</span> 명
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>사이트 가입 선생님</li>
+                    </ul>
+                    <a
+                            type="button"
+                            class="btn btn-md btn-outline-primary"
+                            href="/mng/teacher/list"
+                    >
+                        리스트 보기
+                    </a>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">학습자</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                        <span th:text="${studyCount}">0</span> 명
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>사이트 가입 학습자</li>
+                    </ul>
+                    <a
+                            type="button"
+                            class="btn btn-md btn-outline-primary"
+                            href="/mng/study/list"
+                    >
+                        리스트 보기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorator="/sign_layout">
+<head>
+    <title> 관리자 </title>
+</head>
+
+<!-- 페이지의 개별적인 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/login.css" />
+</th:block>
+
+<div layout:fragment="content">
+    <div class="container" style="text-align:start;">
+        <div class="row">
+
+            <div class="col-md-12 order-md-1">
+                <h4 class="mb-3"> 학습자 등록 </h4>
+                <form class="needs-validation" novalidate method="post" action="/signUp/study">
+
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label for="city"> 지역 </label>
+                            <select class="custom-select d-block w-100" id="city" name="city" required>
+                                <option value="">선택...</option>
+                                <option th:each="city:${cityList}" th:value="${city}" th:text="${city}">United States</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label for="schoolId"> 학교 </label>
+                            <select class="custom-select d-block w-100" id="schoolId" name="schoolId" required>
+                                <option value="">선택...</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label for="teacherId"> 선생님 </label>
+                            <select class="custom-select d-block w-100" id="teacherId" name="teacherId" required>
+                                <option value="">선택...</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="grade"> 학년 </label>
+                            <input type="text" class="form-control" id="grade" name="grade" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="name">이름 </label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email <span class="text-muted">(로그인 아이디)</span></label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid email address for shipping updates.
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password"> 비밀번호 </label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="5자 이상 입력해 주세요" required>
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="rePassword">비밀번호 (확인)  </label>
+                            <input type="password" class="form-control" id="rePassword" name="rePassword" placeholder="똑같이 다시 입력해주세요" required>
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
+
+                    <div class="mb-12 m-auto" style="text-align: center;">
+                        <button class="btn btn-lg btn-secondary " type="submit">
+                            사이트 가입
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const cityEle = document.getElementById("city");
+            const schoolSel = document.getElementById("schoolId");
+            const teacherSel = document.getElementById("teacherId");
+
+            cityEle.addEventListener("change", ()=>{
+                const value= cityEle.options[cityEle.selectedIndex].text;
+                fetch("/schools?city="+value).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    const options = '<option>선택</option>'+data.map(school=>`<option value="${school.schoolId}">${school.name}</option>`).join('');
+                    $(schoolSel).html(options);
+                }).catch(function (err) {
+                    console.warn('Something went wrong.', err);
+                })
+            });
+
+            schoolSel.addEventListener('change', ()=>{
+                const value= schoolSel.options[schoolSel.selectedIndex].value;
+                fetch("/teachers?schoolId="+value).then(function(response){
+                    return response.json();
+                }).then(function(data){
+                    const options = '<option>선택</option>'+data.map(t=>`<option value="${t.userId}">${t.name}</option>`).join('');
+                    $(teacherSel).html(options);
+                }).catch(function(err){
+                    console.warn('Something went wrong.', err);
+                })
+            })
+        </script>
+    </div>
+</div>
+
+</html>
