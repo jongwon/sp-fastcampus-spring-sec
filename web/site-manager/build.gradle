@@ -3,7 +3,7 @@ apply from: "../web-common.gradle"
 
 dependencies {
 
-    compile project(":comp-paper")
-    compile project(":comp-paper-user")
+    implementation project(":comp-paper")
+    implementation project(":comp-paper-user")
 }
 

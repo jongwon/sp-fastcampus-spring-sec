@@ -5,12 +5,12 @@ apply from: "../web-common.gradle"
 dependencies {
 
     implementation("$boot:spring-boot-starter-data-jpa")
-    runtime("mysql:mysql-connector-java")
+    implementation("mysql:mysql-connector-java")
 
-    compile project(":comp-paper")
-    compile project(":comp-paper-user")
-    compile project(":web-site-manager")
-    compile project(":web-site-student")
-    compile project(":web-site-teacher")
+    implementation project(":comp-paper")
+    implementation project(":comp-paper-user")
+    implementation project(":web-site-manager")
+    implementation project(":web-site-student")
+    implementation project(":web-site-teacher")
 }
 

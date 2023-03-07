@@ -3,6 +3,6 @@ apply from: "../web-common.gradle"
 
 dependencies {
 
-    compile project(":web-student-teacher")
+    implementation project(":web-student-teacher")
 }
 

@@ -3,9 +3,9 @@
 dependencies {
     implementation("$boot:spring-boot-starter-data-jpa")
 
-    testRuntime("com.h2database:h2")
+    testImplementation("com.h2database:h2")
 
-    compile project(":comp-paper-user")
-    testCompile project(":comp-paper-user").sourceSets.test.output
+    implementation project(":comp-paper-user")
+    testImplementation project(":comp-paper-user").sourceSets.test.output
 }
 

@@ -8,7 +8,7 @@ dependencies {
     implementation("net.sf.ehcache:ehcache")
 
 //    runtime("com.h2database:h2")
-    runtime("mysql:mysql-connector-java")
+    implementation("mysql:mysql-connector-java")
 
 
 }

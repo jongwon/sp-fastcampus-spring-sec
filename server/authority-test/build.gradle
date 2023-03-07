@@ -4,7 +4,7 @@ dependencies {
 
     implementation("$boot:spring-boot-starter-web")
 
-    testCompile project(":test-web-util")
+    testImplementation project(":test-web-util")
 
 }
 

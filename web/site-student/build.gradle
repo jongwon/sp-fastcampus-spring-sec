@@ -5,7 +5,7 @@ dependencies {
 
     implementation("org.springframework:spring-tx")
 
-    compile project(":comp-paper")
-    compile project(":comp-paper-user")
+    implementation project(":comp-paper")
+    implementation project(":comp-paper-user")
 }
 
