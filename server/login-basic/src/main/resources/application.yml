@@ -1,0 +1,9 @@
+server:
+  port: 9051
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
